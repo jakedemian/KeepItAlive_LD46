@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Numerics;
 using UnityEngine;
 using Vector2 = UnityEngine.Vector2;
+using Vector3 = UnityEngine.Vector3;
 
 public class BallController : MonoBehaviour {
     public LayerMask paddle;
@@ -30,9 +31,8 @@ public class BallController : MonoBehaviour {
         Instance = this;
         Application.targetFrameRate = 60;
     }
-    
-    
-    
+
+
     void Start() {
         collider = GetComponent<CircleCollider2D>();
     }
@@ -47,14 +47,14 @@ public class BallController : MonoBehaviour {
                 maxYReached = transform.position.y;
             }
         }
-        
+
         if (!CheckCollisions()) {
             ApplyGravity(); // dont do gravity on the collision frame
         }
         else {
             isRising = true;
         }
-        
+
         DoMove();
     }
 
@@ -69,27 +69,24 @@ public class BallController : MonoBehaviour {
         }
 
         velocity = new Vector2(velocity.x, newYSpeed);
-
     }
 
     private bool CheckCollisions() {
         float halfHeight = collider.radius;
-        if (transform.position.y - halfHeight < -3f) {
+        if (transform.position.y - halfHeight < -3f && CheckRaycast()) {
             // "collision"
             transform.position = new Vector2(transform.position.x, -3 + halfHeight);
-            CheckRaycast();
             return true;
         }
 
         return false;
     }
-
+    
     private bool CheckRaycast() {
         Vector2 towardsPaddle = PaddleController.Instance.transform.position - transform.position;
         hit = Physics2D.Raycast(transform.position, towardsPaddle.normalized, Mathf.Infinity, paddle);
         if (hit.collider != null) {
             velocity = hit.normal * bounceSpeed;
-            Debug.Log(velocity.y);
             BallBounceAnimation.Instance.DoBallBounce();
             AudioManager.Instance.PlayFromSoundGroup("squish");
             return true;
@@ -97,6 +94,7 @@ public class BallController : MonoBehaviour {
 
         return false;
     }
+
 
     private void DoMove() {
         if (velocity.magnitude > maxSpeed) {

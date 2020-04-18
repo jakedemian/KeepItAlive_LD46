@@ -551,8 +551,8 @@ MonoBehaviour:
   paddle:
     serializedVersion: 2
     m_Bits: 256
-  gravity: 9.8
-  maxSpeed: 100
-  bounceSpeed: 5
+  gravity: 25.83
+  maxSpeed: 17.8
+  bounceSpeed: 17.8
   criticalDampeningY: 4
   criticalDampeningFactor: 2

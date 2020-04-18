@@ -31,7 +31,7 @@ public class PaddleController : MonoBehaviour {
             DoPaddleRotation(mouseLeft);
         }
 
-        //MoveTowardsMouse();
+        MoveTowardsMouse();
     }
 
     private void MoveTowardsMouse() {
