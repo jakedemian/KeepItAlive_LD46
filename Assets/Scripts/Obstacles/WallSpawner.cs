@@ -22,6 +22,8 @@ public class WallSpawner : MonoBehaviour {
     }
 
     private void Update() {
+        if (GameController.Instance.paused) return;
+        
         if (timer >= nextSpawnTime) {
             SpawnWall();
 

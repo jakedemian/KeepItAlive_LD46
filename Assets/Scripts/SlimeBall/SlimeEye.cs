@@ -18,6 +18,8 @@ public class SlimeEye : MonoBehaviour {
     }
 
     void Update() {
+        if (GameController.Instance.paused) return;
+        
         targetLocation = (Vector2) slimeBall.position + relativeOrigin;
         transform.position = Vector3.Lerp(transform.position, targetLocation, followSpeed * Time.deltaTime); 
         

@@ -8,7 +8,14 @@ public class Wall : MonoBehaviour {
     
     private bool hasScored = false;
     void Update() {
-        if (!hasScored && PaddleController.Instance.transform.position.x > transform.position.x) {
+        if (GameController.Instance.paused) return;
+
+        if (transform.position.x < -15f) {
+            Destroy(gameObject);
+            return;
+        }
+        
+        if (!hasScored && BallController.Instance.transform.position.x > transform.position.x) {
             hasScored = true;
             Score.Instance.IncrementScore();
         }

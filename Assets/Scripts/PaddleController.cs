@@ -29,6 +29,8 @@ public class PaddleController : MonoBehaviour {
     }
 
     void Update() {
+        if (GameController.Instance.paused) return;
+        
         Vector3 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
         Vector3 targetPosition = new Vector2(mousePos.x, transform.position.y);
         Vector2 nextPosition = Vector2.Lerp(transform.position, targetPosition, paddleSpeedFactor * Time.deltaTime);

@@ -44,9 +44,11 @@ public class BallController : MonoBehaviour {
     }
 
     void Update() {
-        if (!gameStarted) return;
+        if (!gameStarted || GameController.Instance.paused) return;
+        
         if (transform.position.y < -10) {
-            GameController.Instance.Restart();
+            GameController.Instance.EndGame();
+            AudioManager.Instance.Play("death");
         }
         
         CheckObstacleCollision();
@@ -64,7 +66,8 @@ public class BallController : MonoBehaviour {
     private void CheckObstacleCollision() {
         Collider2D obstacleCollider = Physics2D.OverlapCircle(transform.position, collider.radius, obstacleLayer);
         if (obstacleCollider) {
-            GameController.Instance.Restart();
+            GameController.Instance.EndGame();
+            AudioManager.Instance.Play("death");
         }
     }
 

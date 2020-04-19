@@ -42,6 +42,8 @@ public class BackgroundController : MonoBehaviour {
     }
 
     void Update() {
+        if (GameController.Instance.paused) return;
+        
         if (currentGround.transform.position.x < 0f) {
             GameObject old = currentGround;
             currentGround = Instantiate(

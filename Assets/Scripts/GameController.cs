@@ -3,7 +3,13 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class GameController : MonoBehaviour {
+    public GameObject endgameMenu;
+    public GameObject startMenu;
+
+    public static bool gameHasStarted = false;
+    
     public float pregameCountdownTime = 1f;
+    public bool paused;
     
     public static GameController Instance;
     void Awake() {
@@ -11,8 +17,16 @@ public class GameController : MonoBehaviour {
     }
 
     void Start() {
-        Countdown.Instance.gameObject.SetActive(true);
-        StartCoroutine(nameof(StartCountdown));
+        Debug.Log(gameHasStarted);
+        if (!gameHasStarted) {
+            startMenu.SetActive(true);
+            paused = true;
+        }
+        else {
+            paused = false;
+            Countdown.Instance.gameObject.SetActive(true);
+            StartCoroutine(nameof(StartCountdown));
+        }
     }
 
     private IEnumerator StartCountdown() {
@@ -27,7 +41,26 @@ public class GameController : MonoBehaviour {
         BallController.Instance.gameStarted = true;
     }
 
+    public void EndGame() {
+        paused = true;
+        endgameMenu.SetActive(true);
+        int score = Score.Instance.GetScore();
+        bool isHighScore = score > StaticScoreTracker.GetHighScore();
+        StaticScoreTracker.SubmitNewScore(score);
+        endgameMenu.GetComponent<EndgameMenu>().Init(score, isHighScore);
+    }
+
     public void Restart(){
         Application.LoadLevel(Application.loadedLevel);
+    }
+
+    public void StartGame() {
+        AudioManager.Instance.PlayFromSoundGroup("squish");
+        paused = false;
+        startMenu.SetActive(false);
+        gameHasStarted = true;
+        
+        Countdown.Instance.gameObject.SetActive(true);
+        StartCoroutine(nameof(StartCountdown));
     }
 }
