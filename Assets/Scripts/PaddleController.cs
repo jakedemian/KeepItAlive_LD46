@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class PaddleController : MonoBehaviour {
+    public GameObject paddleArm;
     public float paddleSpeedFactor;
     public float rotationLerpSpeed = 2f;
     public float targetAngle;
@@ -34,6 +35,7 @@ public class PaddleController : MonoBehaviour {
 
         DoPaddleRotation(nextPosition);
         MoveTowardsMouse(nextPosition);
+        UpdatePaddleArm();
     }
 
     private void MoveTowardsMouse(Vector2 nextPosition) {
@@ -73,5 +75,10 @@ public class PaddleController : MonoBehaviour {
 
     public EdgeCollider2D GetCollider() {
         return collider;
+    }
+
+    private void UpdatePaddleArm() {
+        Vector2 p = transform.position;
+        paddleArm.transform.position = new Vector2(p.x, paddleArm.transform.position.y);
     }
 }

@@ -8,30 +8,33 @@ public class WallSpawner : MonoBehaviour {
 
     public float wallSpawnY = -3f;
     public float wallSpawnYVariation = 1f;
+    public float bIntervalCalc = 133;
+    public float minSpawnIntervalPercent = 0.5f;
 
     private float spawnInterval;
     private float nextSpawnTime;
     private float timer = 0f;
 
-    void Start() {
+    private void Start() {
         transform.position = Camera.main.ViewportToWorldPoint(new Vector2(1.2f, 0.5f));
         spawnInterval = startingSpawnInterval;
         nextSpawnTime = timer + spawnInterval;
     }
 
-    void Update() {
+    private void Update() {
         if (timer >= nextSpawnTime) {
             SpawnWall();
 
             // recalculate interval based on timer
             RecalculateInterval();
+            Debug.Log(spawnInterval);
             nextSpawnTime += spawnInterval;
         }
 
         timer += Time.deltaTime;
     }
 
-    void SpawnWall() {
+    private void SpawnWall() {
         float y = wallSpawnY + Random.Range(-wallSpawnYVariation, wallSpawnYVariation);
         Instantiate(
             wallPrefab,
@@ -40,7 +43,13 @@ public class WallSpawner : MonoBehaviour {
         );
     }
 
-    void RecalculateInterval() {
-        
+    private void RecalculateInterval() {
+        float percent = Mathf.Clamp(
+            1 - (Mathf.Pow(timer, 2) / Mathf.Pow(bIntervalCalc, 2)), 
+            minSpawnIntervalPercent,
+            1f);
+        float newInterval = startingSpawnInterval * percent;
+
+        spawnInterval = newInterval;
     }
 }
