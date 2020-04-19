@@ -75,6 +75,8 @@
      <Compile Include="Assets\Scripts\StaticScoreTracker.cs" />
      <Compile Include="Assets\Scripts\UI\Countdown.cs" />
      <Compile Include="Assets\Scripts\UI\EndgameMenu.cs" />
+     <Compile Include="Assets\Scripts\UI\MusicButton.cs" />
+     <Compile Include="Assets\Scripts\UI\MusicPanel.cs" />
      <Compile Include="Assets\Scripts\UI\Score.cs" />
      <Compile Include="Assets\Scripts\UI\TutorialPanel.cs" />
      <None Include="Assets\TextMesh Pro\Resources\Shaders\TMPro.cginc" />

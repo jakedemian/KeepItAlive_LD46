@@ -22,6 +22,8 @@ public class GameController : MonoBehaviour {
     }
 
     void Start() {
+        //AudioManager.Instance.SetMusicUISprite();
+
         if (!gameHasStarted) {
             startMenu.SetActive(true);
             paused = true;
