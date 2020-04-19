@@ -12,20 +12,28 @@ public class SlimeEye : MonoBehaviour {
     public float pupilHorizOffset;
 
     private Vector2 targetLocation;
+
     void Start() {
         targetLocation = (Vector2) slimeBall.position + relativeOrigin;
         transform.position = targetLocation; // hard set it on start
     }
 
     void Update() {
-        if (GameController.Instance.paused) return;
-        
-        targetLocation = (Vector2) slimeBall.position + relativeOrigin;
-        transform.position = Vector3.Lerp(transform.position, targetLocation, followSpeed * Time.deltaTime); 
-        
-        //update pupil
-        float slimeBallVelocity = BallController.Instance.velocity.y;
-        float pupilY = Mathf.Clamp(slimeBallVelocity * pupilPlacementFactor, -pupilMaxDistance, pupilMaxDistance);
-        slimePupil.position = (Vector2) transform.position + new Vector2(pupilHorizOffset, pupilY);
+        //if (GameController.Instance.paused) return;
+        if (slimeBall != null) {
+            targetLocation = (Vector2) slimeBall.position + relativeOrigin;
+            transform.position = Vector3.Lerp(transform.position, targetLocation, followSpeed * Time.deltaTime);
+
+            //update pupil
+            float slimeBallVelocity = BallController.Instance.velocity.y;
+            float pupilY = Mathf.Clamp(slimeBallVelocity * pupilPlacementFactor, -pupilMaxDistance, pupilMaxDistance);
+            slimePupil.position = (Vector2) transform.position + new Vector2(pupilHorizOffset, pupilY);
+        }
+        else {
+            transform.position = Vector3.Lerp(
+                transform.position, 
+                (Vector2) transform.position + (Vector2.down * 15f),
+                2f * Time.deltaTime);
+        }
     }
 }

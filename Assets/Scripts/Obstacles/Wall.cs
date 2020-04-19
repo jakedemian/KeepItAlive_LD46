@@ -1,12 +1,21 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Runtime.InteropServices;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
 public class Wall : MonoBehaviour {
     public float moveSpeed = 1f;
+    public Sprite[] sprites;
     
     private bool hasScored = false;
+
+    private void Start() {
+        int spriteIndex = Random.Range(0, sprites.Length);
+        GetComponent<SpriteRenderer>().sprite = sprites[spriteIndex];
+    }
+
     void Update() {
         if (GameController.Instance.paused) return;
 
